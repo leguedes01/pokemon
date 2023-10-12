@@ -1,1 +1,50 @@
 # pokemon
+
+import tkinter as tk
+import requests
+
+def search_pokemon():
+    pokemon_name = entry.get()
+    response = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}")
+    if response.status_code == 200:
+        data = response.json()
+        result_label.config(text=f"Nome: {data['name'].capitalize()}\n"
+                                 f"Altura: {data['height']}\n"
+                                 f"Peso: {data['weight']}")
+    else:
+        result_label.config(text="Pokémon não encontrado.")
+
+# Criação da janela
+window = tk.Tk()
+window.title("Informações de Pokémon")
+
+# Caixa de entrada
+entry = tk.Entry(window, width=35)
+entry.pack(pady=10)
+
+# Botão de pesquisa
+search_button = tk.Button(window, text="Buscar", command=search_pokemon, font= 'arial', fg='blue', width=15 )
+search_button.pack()
+
+# Rótulo para exibir os resultados
+result_label = tk.Label(window, text="", width=30, font='arial', fg='green', height=20 )
+result_label.pack()
+
+# Inicia a janela
+window.mainloop()
+
+
+
+# if response.status_code == 200:: Este é um condicional que verifica se o código de status da resposta 
+# da API é igual a 200. O código de status 200 é geralmente usado para indicar que a solicitação foi bem-sucedida.
+
+# Se o código de status for 200, o programa executa o seguinte bloco de código:
+
+# data = response.json(): Isso converte o conteúdo da resposta da API em um objeto JSON e armazena-o na variável data.
+
+# result_label.config(text=f"Nome: {data['name'].capitalize()}\n": Isso atualiza o texto do elemento gráfico com o nome 
+#                     result_label. O texto incluirá o nome do Pokémon em maiúsculas, altura e peso obtidos dos dados da API.
+
+# Se o código de status não for 200 (ou seja, algo deu errado na solicitação à API), o programa executa o bloco else:
+
+# result_label.config(text="Pokémon não encontrado."): Isso atualiza o texto do elemento gráfico result_label com a mensagem "Pokémon não encontrado."
